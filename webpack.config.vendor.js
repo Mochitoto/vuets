@@ -1,12 +1,13 @@
 const path = require('path');
 const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+//const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 module.exports = (env) => {
     const isDevBuild = !(env && env.prod);
     const devMode = isDevBuild ? 'development':'production';
-    const extractCSS = new ExtractTextPlugin('vendor.css');
+    const extractCSS = new MiniCssExtractPlugin('vendor.css');
 
     return [{
         mode: devMode,
@@ -25,7 +26,14 @@ module.exports = (env) => {
         },
         module: {
             rules: [
-                { test: /\.css(\?|$)/, use: extractCSS.extract({ use: isDevBuild ? 'css-loader' : 'css-loader?minimize' }) },
+                {
+                    test: /\.css$/, use: [MiniCssExtractPlugin.loader, devMode ? "css-loader" : {
+                        loader: "css-loader",
+                        options: {
+                            minimize: true
+                        }
+                    }]
+                },
                 { test: /\.(png|woff|woff2|eot|ttf|svg)(\?|$)/, use: 'url-loader?limit=100000' }
             ]
         },
