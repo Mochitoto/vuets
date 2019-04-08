@@ -10,7 +10,7 @@ As of now, official template uses Webpack 2 and older NPM packages, and it hasn'
 
 ## This template has the following changes:
 
-- Migrated to .Net Core 2.1
+- Migrated to .Net Core 2.2
 - Updated NPM packages except BootStrap 3
 - Supports WebPack 4
 
